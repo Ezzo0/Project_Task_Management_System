@@ -19,7 +19,25 @@ Prerequisites:
 - Node.js (18+ recommended)
 - PostgreSQL
 
-1. Copy the example env and edit values:
+1. Create a `.env` file in the project root.
+   Save your values to `.env` and ensure Postgres is reachable with those credentials. Here is an example variables used by the app:
+
+```
+# Server
+PORT=4000
+NODE_ENV=development
+
+# Database (Postgres)
+DB_HOST=localhost
+DB_PORT=5432
+DB_USERNAME=postgres
+DB_PASSWORD=postgres
+DB_DATABASE=project_db
+
+# JWT
+JWT_SECRET=your_jwt_secret_here
+JWT_EXPIRES_IN=1d
+```
 
 2. Install dependencies:
 
@@ -62,28 +80,10 @@ To stop and remove containers:
 docker-compose down
 ```
 
-## Environment variables
+## Postman Collection
 
-Create a `.env` file in the project root. Example variables used by the app:
+A Postman collection is included at `postman_collection.json` to help test the API. Import it into Postman (File → Import) or use Postman's CLI. The collection contains example requests for authentication, projects, and tasks and sets the following collection variables: `baseUrl`, `token`, `projectId`, and `taskId`. Use the `Login Admin` request to obtain an admin token for accessing admin-only endpoints.
 
-```
-# Server
-PORT=4000
-NODE_ENV=development
-
-# Database (Postgres)
-DB_HOST=localhost
-DB_PORT=5432
-DB_USERNAME=postgres
-DB_PASSWORD=postgres
-DB_DATABASE=project_db
-
-# JWT
-JWT_SECRET=your_jwt_secret_here
-JWT_EXPIRES_IN=1d
-```
-
-Save your values to `.env` and ensure Postgres is reachable with those credentials.
 
 ## API Endpoints
 
