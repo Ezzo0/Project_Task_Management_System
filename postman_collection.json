@@ -100,10 +100,10 @@
                   "    pm.response.to.have.status(200);",
                   "});",
                   "const jsonData = pm.response.json();",
-                  "pm.test('Login response has token', function () {",
-                  "    pm.expect(jsonData).to.have.property('token');",
+                  "pm.test('Login response has accessToken', function () {",
+                  "    pm.expect(jsonData).to.have.property('accessToken');",
                   "});",
-                  "pm.collectionVariables.set('token', jsonData.token);"
+                  "pm.collectionVariables.set('token', jsonData.accessToken);"
                 ]
               }
             }
@@ -139,10 +139,86 @@
                   "    pm.response.to.have.status(200);",
                   "});",
                   "const jsonData = pm.response.json();",
-                  "pm.test('Admin login response has token', function () {",
-                  "    pm.expect(jsonData).to.have.property('token');",
+                  "pm.test('Admin login response has accessToken', function () {",
+                  "    pm.expect(jsonData).to.have.property('accessToken');",
                   "});",
-                  "pm.collectionVariables.set('token', jsonData.token);"
+                  "pm.collectionVariables.set('token', jsonData.accessToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Refresh Token",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/refresh",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "refresh"]
+            },
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"refreshToken\": \"<paste_refresh_token_here>\"\n}"
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Refresh status is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "const jsonData = pm.response.json();",
+                  "pm.test('Refresh response has accessToken', function () {",
+                  "    pm.expect(jsonData).to.have.property('accessToken');",
+                  "});",
+                  "pm.collectionVariables.set('token', jsonData.accessToken);"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "name": "Logout",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{baseUrl}}/api/auth/logout",
+              "host": ["{{baseUrl}}"],
+              "path": ["api", "auth", "logout"]
+            }
+          },
+          "response": [],
+          "event": [
+            {
+              "listen": "test",
+              "script": {
+                "exec": [
+                  "pm.test('Logout status is 200', function () {",
+                  "    pm.response.to.have.status(200);",
+                  "});",
+                  "pm.collectionVariables.set('token', '');",
+                  "pm.collectionVariables.set('projectId', '');",
+                  "pm.collectionVariables.set('taskId', '');"
                 ]
               }
             }
@@ -360,7 +436,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Updated Project Title\",\n  \"description\": \"Updated description for the project.\"\n}"
+              "raw": "{\n  \"title\": \"Updated Project Title\",\n  \"description\": \"Updated description for the project.\",\n  \"status\": \"Completed\"\n}"
             }
           },
           "response": [],
@@ -584,7 +660,7 @@
             },
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Updated Task Title\",\n  \"description\": \"Updated description for the task.\"\n}"
+              "raw": "{\n  \"title\": \"Updated Task Title\",\n  \"description\": \"Updated description for the task.\",\n  \"status\": \"In Progress\",\n  \"priority\": \"Medium\"\n}"
             }
           },
           "response": [],

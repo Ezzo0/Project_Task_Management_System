@@ -2,6 +2,8 @@ import { Router } from "express";
 import {
   registerController,
   loginController,
+  logoutController,
+  refreshController,
 } from "../controllers/auth.controller";
 import { validateRequest } from "../middlewares/validate.middleware";
 import {
@@ -24,3 +26,9 @@ authRouter.post(
   validateRequest,
   loginController,
 );
+
+// Refresh access token using refresh token from cookie or body
+authRouter.post("/refresh", refreshController);
+
+// Logout route
+authRouter.post("/logout", logoutController);

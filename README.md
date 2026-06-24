@@ -37,6 +37,7 @@ DB_DATABASE=project_db
 # JWT
 JWT_SECRET=your_jwt_secret_here
 JWT_EXPIRES_IN=1d
+JWT_REFRESH_EXPIRES_IN=7d
 ```
 
 2. Install dependencies:
@@ -83,6 +84,7 @@ docker compose down
 ## Postman Collection
 
 A Postman collection is included at `postman_collection.json` to help test the API. Import it into Postman (File → Import) or use Postman's CLI. The collection contains example requests for authentication, projects, and tasks and sets the following collection variables: `baseUrl`, `token`, `projectId`, and `taskId`. Use the `Login Admin` request to obtain an admin token for accessing admin-only endpoints.
+The collection also includes a `refreshToken` variable and a `POST /api/auth/refresh` request to exchange refresh tokens for new access tokens. Depending on how the API is configured, refresh tokens may be returned in the login response body as `refreshToken` or set as an HttpOnly cookie.
 
 ## API Endpoints
 
@@ -91,6 +93,7 @@ Below are the main API endpoints exposed by the application. All endpoints are p
 - **Authentication (public)**
   - `POST /api/auth/register` — Register a new user. Body: `{ name, email, password }`.
   - `POST /api/auth/login` — Login with email and password. Returns `{ token }`.
+  - `POST /api/auth/refresh` — Exchange a refresh token for a new access token. Typically requires sending the refresh token in the request (or via an HttpOnly cookie), and returns a new access token.
 
 - **Projects (authenticated)** — all project routes require a valid JWT in the `Authorization: Bearer <token>` header (the app applies `authMiddleware` to `/api/projects`).
   - `GET /api/projects` — List projects.
