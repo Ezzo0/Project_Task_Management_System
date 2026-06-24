@@ -37,8 +37,6 @@ services:
       JWT_ACCESS_TOKEN_EXPIRES_IN: 15m
     ports:
       - "4000:4000"
-    # volumes:
-    #   - .:/usr/src/app:cached
     command: sh -c "npm run build && npm run migration:run && npm start"
 
 volumes:
