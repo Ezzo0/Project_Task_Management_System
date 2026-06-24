@@ -71,19 +71,18 @@ This project includes a `docker-compose.yml` for running the API together with a
 Bring up the services:
 
 ```bash
-docker-compose up --build -d
+docker compose up --build
 ```
 
 To stop and remove containers:
 
 ```bash
-docker-compose down
+docker compose down
 ```
 
 ## Postman Collection
 
 A Postman collection is included at `postman_collection.json` to help test the API. Import it into Postman (File → Import) or use Postman's CLI. The collection contains example requests for authentication, projects, and tasks and sets the following collection variables: `baseUrl`, `token`, `projectId`, and `taskId`. Use the `Login Admin` request to obtain an admin token for accessing admin-only endpoints.
-
 
 ## API Endpoints
 
