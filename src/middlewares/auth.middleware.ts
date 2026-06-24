@@ -7,6 +7,7 @@ export const authMiddleware = (
   res: Response,
   next: NextFunction,
 ) => {
+  // Validate that the request includes a Bearer token in Authorization header.
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({ message: "Token missing or invalid" });
@@ -18,6 +19,7 @@ export const authMiddleware = (
       token,
       process.env.JWT_SECRET || "secret",
     ) as JwtPayload;
+    // Attach authenticated user details to the request for downstream handlers.
     (req as any).userId = payload.userId;
     (req as any).userRole = payload.role;
     next();

@@ -19,6 +19,7 @@ app.use("/api/auth", authRouter);
 app.use("/api/projects", authMiddleware, projectRouter);
 app.use("/api/admin/projects", authMiddleware, projectStatsRouter);
 
+// Centralized error handling middleware catches service and controller errors.
 app.use(errorHandler);
 
 const port = process.env.PORT || 4000;

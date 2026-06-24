@@ -1,4 +1,5 @@
 import { Router } from "express";
+import { taskRouter } from "./task.routes";
 import {
   createProjectController,
   deleteProjectController,
@@ -6,13 +7,6 @@ import {
   getProjectsController,
   updateProjectController,
 } from "../controllers/project.controller";
-import {
-  createTaskController,
-  deleteTaskController,
-  getTaskController,
-  getTasksController,
-  updateTaskController,
-} from "../controllers/task.controller";
 import { validateRequest } from "../middlewares/validate.middleware";
 import {
   createProjectValidationRules,
@@ -22,16 +16,9 @@ import {
   getProjectsValidationRules,
 } from "../validators/project.validators";
 
-import {
-  getTasksValidationRules,
-  createTaskValidationRules,
-  getTaskByIdValidationRules,
-  updateTaskValidationRules,
-  deleteTaskValidationRules,
-} from "../validators/task.validators";
+export const projectRouter = Router();
 
-export const projectRouter = Router({ mergeParams: true });
-
+// Project CRUD routes
 projectRouter.get(
   "/",
   getProjectsValidationRules,
@@ -67,33 +54,4 @@ projectRouter.delete(
   deleteProjectController,
 );
 
-projectRouter.get(
-  "/:projectId/tasks",
-  getTasksValidationRules,
-  validateRequest,
-  getTasksController,
-);
-projectRouter.post(
-  "/:projectId/tasks",
-  createTaskValidationRules,
-  validateRequest,
-  createTaskController,
-);
-projectRouter.get(
-  "/:projectId/tasks/:taskId",
-  getTaskByIdValidationRules,
-  validateRequest,
-  getTaskController,
-);
-projectRouter.patch(
-  "/:projectId/tasks/:taskId",
-  updateTaskValidationRules,
-  validateRequest,
-  updateTaskController,
-);
-projectRouter.delete(
-  "/:projectId/tasks/:taskId",
-  deleteTaskValidationRules,
-  validateRequest,
-  deleteTaskController,
-);
+projectRouter.use("/:projectId/tasks", taskRouter);

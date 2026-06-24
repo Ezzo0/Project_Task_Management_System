@@ -1,16 +1,9 @@
 import { AppDataSource } from "../utils/data-source";
 import { Task } from "../entities/Task";
 import { getProjectById } from "./project.service";
+import { sanitizeObj } from "../utils/sanitizeObj";
 
 const taskRepository = AppDataSource.getRepository(Task);
-
-// Helpers to remove timestamp fields from responses
-const sanitizeTask = (task: any, ...excludeFields: string[]) => {
-  if (!task) return task;
-  return Object.fromEntries(
-    Object.entries(task).filter(([key]) => !excludeFields.includes(key)),
-  );
-};
 
 export const createTask = async (
   userId: string,
@@ -31,7 +24,7 @@ export const createTask = async (
     project,
   });
   const saved = await taskRepository.save(task);
-  return sanitizeTask(saved, "project", "createdAt", "updatedAt");
+  return sanitizeObj(saved, "project", "createdAt", "updatedAt");
 };
 
 export const getTasks = async (

@@ -1,17 +1,10 @@
 import { AppDataSource } from "../utils/data-source";
 import { Project } from "../entities/Project";
 import { User } from "../entities/User";
+import { sanitizeObj } from "../utils/sanitizeObj";
 
 const projectRepository = AppDataSource.getRepository(Project);
 const userRepository = AppDataSource.getRepository(User);
-
-// Helpers to remove timestamp fields from responses
-const sanitizeProject = (project: any, ...excludeFields: string[]) => {
-  if (!project) return project;
-  return Object.fromEntries(
-    Object.entries(project).filter(([key]) => !excludeFields.includes(key)),
-  );
-};
 
 export const createProject = async (
   userId: string,
@@ -29,7 +22,7 @@ export const createProject = async (
     user,
   });
   const saved = await projectRepository.save(project);
-  return sanitizeProject(saved, "user", "createdAt", "updatedAt");
+  return sanitizeObj(saved, "user", "createdAt", "updatedAt");
 };
 
 export const getProjects = async (
@@ -90,8 +83,7 @@ export const updateProject = async (
   const project = await getProjectById(userId, projectId);
   Object.assign(project, data);
   project.updatedAt = new Date();
-  const updated = await projectRepository.save(project);
-  return sanitizeProject(updated, "tasks");
+  return projectRepository.save(project);
 };
 
 export const deleteProject = async (userId: string, projectId: string) => {
