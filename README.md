@@ -12,6 +12,55 @@ Project Task Management System is a REST API for managing projects, tasks and us
 - **Auth:** JSON Web Tokens (JWT)
 - **Containerization:** Docker + Docker Compose
 
+## Project structure
+
+The repository is organized as follows:
+
+- `.dockerignore` - files and directories ignored by Docker builds.
+- `.env` - environment variables for local development.
+- `.gitignore` - files ignored by Git.
+- `docker-compose.yml` - Docker Compose file for running the API and PostgreSQL together.
+- `Dockerfile` - Docker image definition for the Node.js application.
+- `package-lock.json` - npm lockfile with exact dependency versions.
+- `package.json` - npm scripts and dependencies.
+- `postman_collection.json` - Postman collection for API testing.
+- `README.md` - project documentation.
+- `tsconfig.json` - TypeScript compiler configuration.
+- `src/` - application source code.
+  - `index.ts` - application entry point.
+  - `controllers/`
+    - `auth.controller.ts` - authentication routes handlers.
+    - `project.controller.ts` - project routes handlers.
+    - `task.controller.ts` - task routes handlers.
+  - `entities/`
+    - `Project.ts` - TypeORM project entity.
+    - `Task.ts` - TypeORM task entity.
+    - `User.ts` - TypeORM user entity.
+  - `middlewares/`
+    - `auth.middleware.ts` - JWT authentication middleware.
+    - `error.middleware.ts` - error handling middleware.
+    - `role.middleware.ts` - role-based access control middleware.
+    - `validate.middleware.ts` - request validation middleware.
+  - `migrations/`
+    - `1680000000000-CreateInitialSchema.ts` - initial database schema and seed migration.
+  - `routes/`
+    - `auth.routes.ts` - auth API route definitions.
+    - `project.routes.ts` - project API route definitions.
+    - `project.stats.routes.ts` - project statistics routes.
+    - `task.routes.ts` - task API route definitions.
+  - `services/`
+    - `auth.service.ts` - authentication business logic.
+    - `project.service.ts` - project business logic.
+    - `task.service.ts` - task business logic.
+  - `utils/`
+    - `data-source.ts` - TypeORM data source configuration.
+    - `payload.ts` - shared response payload helpers.
+    - `sanitizeObj.ts` - object sanitation helper.
+  - `validators/`
+    - `auth.validators.ts` - auth request validation.
+    - `project.validators.ts` - project request validation.
+    - `task.validators.ts` - task request validation.
+
 ## Getting started (local)
 
 Prerequisites:
